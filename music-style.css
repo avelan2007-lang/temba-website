@@ -296,7 +296,24 @@ footer a {
 
 /* --- MOBILE RESPONSIVE --- */
 @media (max-width: 900px) {
-    nav { display: none; }
+    header {
+        flex-direction: column;
+        padding: 15px 5%;
+        gap: 15px;
+    }
+    .logo {
+        font-size: 1.5rem;
+    }
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    nav a {
+        margin-left: 0;
+        font-size: 0.85rem;
+    }
     .hero h1 { font-size: 3rem; }
     .bio-section, .booking-section { grid-template-columns: 1fr; }
     .section-title { font-size: 2rem; }
