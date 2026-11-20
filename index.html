@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temba Ncetani | Official Website</title>
+    <!-- Google Fonts for the Jazz look -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Link to the specific musician CSS file -->
+    <link rel="stylesheet" href="music-style.css">
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <header>
+        <div class="logo">Temba Ncetani</div>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#music">Music</a>
+            <a href="biography.html">Biography</a>
+            <a href="#bookings">Bookings</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <h2>Jazz Artist & Educator</h2>
+        <h1>Temba Ncetani</h1>
+        <p>Bridging the gap between Eastern Cape jazz heritage and modern soundscapes. SAMA-nominated musician, composer, and dedicated music educator.</p>
+        <div>
+            <a href="#bookings" class="btn btn-gold">Book for an Event</a>
+            <a href="#music" class="btn btn-outline">Listen to Music</a>
+        </div>
+    </section>
+
+    <!-- APPLE MUSIC SECTION -->
+    <section class="music-section" id="music">
+        <h2 class="section-title">Listen to the Music</h2>
+        
+        <div class="music-box">
+            <h3 style="font-family: 'Playfair Display', serif; color: #f4f4f4; font-size: 1.8rem; margin-bottom: 10px;">
+                Oonozakuzaku (For Mr & Mrs Dali)
+            </h3>
+            <p style="color: var(--gold); margin-bottom: 25px; font-weight: bold; letter-spacing: 1px;">
+                Available Now on Apple Music
+            </p>
+
+            <!-- APPLE MUSIC EMBED CODE -->
+            <div style="display: flex; justify-content: center;">
+                <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
+                    frameborder="0" 
+                    height="175" 
+                    style="width:100%;max-width:660px;overflow:hidden;border-radius:10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);" 
+                    sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
+                    src="https://embed.music.apple.com/za/song/oonozakuzaku-for-mr-mrs-dali/1811030757">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- BIOGRAPHY SECTION -->
+    <section class="bio-section" id="bio">
+        <div>
+            <!-- IMAGE: Save his album cover or a good photo as 'album-cover.jpg' -->
+            <img src="images/album-cover.jpg" alt="Temba Ncetani" class="bio-img">
+        </div>
+        <div class="bio-text">
+            <h3>More Than Just a Musician</h3>
+            <p>To the students at <strong>Khanyisa High School</strong> in Mthatha, he is simply "Sir." As a dedicated music educator, Temba Ncetani has dedicated his life to nurturing the next generation of South African talent.</p>
+            <p>He is a self-taught multi-instrumentalist, a graduate of Nelson Mandela University, and a firm believer that music is the ultimate tool for social change.</p>
+            <p>His latest album, <em>INTLUNGU. INTLUPHEKO. IMBILINI.</em>, earned a SAMA nomination for Best Jazz Album, cementing his place as one of the Eastern Cape's finest musical exports.</p>
+        </div>
+    </section>
+
+    <!-- BOOKINGS & LOCATION SECTION -->
+    <section class="booking-section" id="bookings">
+        <div class="booking-info">
+            <h3>Bookings & Location</h3>
+            <p>Available for jazz festivals, corporate events, private functions, and educational workshops.</p>
+            <p style="margin-top: 30px;"><strong>Based In:</strong><br>Mthatha, Eastern Cape, South Africa</p>
+            <p><strong>WhatsApp:</strong><br>Use the form to send a direct message to Temba.</p>
+        </div>
+        
+        <div class="booking-form">
+            <h3>Request a Booking</h3>
+            <!-- Form to trigger BOTH WhatsApp and Email -->
+            <form onsubmit="submitBooking(event)">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Email / Phone</label>
+                    <input type="text" id="contact" placeholder="How should he reply?" required>
+                </div>
+                <div class="form-group">
+                    <label>Event Date & Details</label>
+                    <textarea id="details" rows="4" placeholder="Tell us about your event..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-gold" style="width: 100%;">
+                    Send Request (Email & WhatsApp)
+                </button>
+                <p style="text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">
+                    This will open your Email app and WhatsApp simultaneously so Temba gets your message instantly.
+                </p>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Temba Ncetani. All Rights Reserved.</p>
+        <p style="margin-top: 10px;">
+            <a href="#">Instagram</a> | <a href="#">Facebook</a> | <a href="#">YouTube</a>
+        </p>
+    </footer>
+
+    <!-- FLOATING JAZZ MUSIC PLAYER -->
+    <audio id="bg-music" loop>
+        <source src="images/jazz-vibe.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Removed the Saxophone Emoji -->
+    <button id="music-btn" class="music-btn" onclick="toggleMusic()">
+        <span id="music-text">Play Jazz Vibe</span>
+    </button>
+
+    <script>
+        // --- JAZZ MUSIC PLAYER LOGIC ---
+        var audio = document.getElementById("bg-music");
+        var btn = document.getElementById("music-btn");
+        var text = document.getElementById("music-text");
+        var isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                btn.classList.remove("playing");
+                text.innerText = "Play Jazz Vibe";
+                isPlaying = false;
+            } else {
+                audio.play();
+                btn.classList.add("playing");
+                text.innerText = "Pause Music";
+                isPlaying = true;
+            }
+        }
+
+        // --- DUAL BOOKING LOGIC (WHATSAPP & EMAIL) ---
+        function submitBooking(event) {
+            event.preventDefault(); // Stop page reload
+
+            // 1. Get form data
+            var name = document.getElementById("name").value;
+            var contact = document.getElementById("contact").value;
+            var details = document.getElementById("details").value;
+
+            // 2. SETTINGS (YOUR DETAILS FOR TESTING)
+            var phoneNumber = "27664110056"; // Your WhatsApp number (International format)
+            var emailAddress = "AvelaN2007@gmail.com"; // Your Email address
+
+            // 3. FORMAT WHATSAPP MESSAGE
+            var waMessage = "Hello Temba! I would like to book you for an event.%0A%0A" +
+                            "*Name:* " + name + "%0A" +
+                            "*Contact:* " + contact + "%0A" +
+                            "*Details:* " + details;
+            var whatsappUrl = "https://wa.me/" + phoneNumber + "?text=" + waMessage;
+
+            // 4. FORMAT EMAIL MESSAGE
+            var emailSubject = "New Booking Request from " + name;
+            var emailBody = "Hello Temba,%0A%0AI would like to book you for an event.%0A%0A" +
+                            "Name: " + name + "%0A" +
+                            "Contact Info: " + contact + "%0A" +
+                            "Event Details: " + details + "%0A%0AThank you!";
+            var mailtoUrl = "mailto:" + emailAddress + "?subject=" + encodeURIComponent(emailSubject) + "&body=" + emailBody;
+
+            // 5. TRIGGER BOTH ACTIONS
+            // Open WhatsApp in a new tab
+            window.open(whatsappUrl, '_blank');
+            
+            // Open Email app 
+            window.location.href = mailtoUrl;
+        }
+    </script>
+
+</body>
+</html>
