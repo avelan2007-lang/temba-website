@@ -7,154 +7,109 @@
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="music-style.css">
     <style>
-        /* Styles specific to the Biography Page */
-        .bio-page {
-            padding-top: 120px; /* Account for fixed header */
-        }
-        .bio-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        .bio-header h1 {
-            font-family: var(--font-heading);
-            font-size: 4rem;
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
-        .bio-header p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-        .bio-content {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 60px;
-            align-items: start;
-        }
-        .bio-sidebar img {
-            width: 100%;
-            border-radius: 5px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            margin-bottom: 30px;
-        }
-        .bio-main h2 {
-            font-family: var(--font-heading);
-            font-size: 2.5rem;
-            color: var(--gold);
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            padding-bottom: 10px;
-        }
-        .bio-main h3 {
-            font-family: var(--font-heading);
-            font-size: 1.8rem;
-            color: var(--text-light);
-            margin-top: 40px;
-            margin-bottom: 15px;
-        }
-        .bio-main p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-        .bio-quote {
-            border-left: 4px solid var(--gold);
-            padding-left: 20px;
-            margin: 40px 0;
-            font-style: italic;
-            font-size: 1.3rem;
-            color: var(--text-light);
-        }
-        .highlight-box {
-            background: rgba(212, 175, 55, 0.1);
-            padding: 20px;
-            border-radius: 5px;
-            margin: 30px 0;
-            border: 1px solid rgba(212, 175, 55, 0.3);
-        }
-        .highlight-box p {
-            margin-bottom: 0;
-            color: var(--text-light);
-        }
-        @media (max-width: 900px) {
-            .bio-content {
-                grid-template-columns: 1fr;
-            }
-        }
+        .bio-page { padding-top: 120px; }
+        .bio-header { text-align: center; margin-bottom: 60px; }
+        .bio-header h1 { font-family: var(--font-heading); font-size: 4rem; color: var(--accent-green); margin-bottom: 10px; }
+        .bio-header p { font-size: 1.2rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 3px; }
+        .bio-content { display: grid; grid-template-columns: 1fr 2fr; gap: 60px; align-items: start; }
+        .bio-sidebar img { width: 100%; border-radius: 5px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); border: 2px solid rgba(16, 185, 129, 0.3); margin-bottom: 30px; }
+        .bio-main h2 { font-family: var(--font-heading); font-size: 2.5rem; color: var(--accent-green); margin-bottom: 20px; border-bottom: 1px solid rgba(16, 185, 129, 0.3); padding-bottom: 10px; }
+        .bio-main h3 { font-family: var(--font-heading); font-size: 1.8rem; color: var(--text-light); margin-top: 40px; margin-bottom: 15px; }
+        .bio-main p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; }
+        .bio-main ul { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 20px; padding-left: 20px; line-height: 1.8; }
+        .bio-main li { margin-bottom: 10px; }
+        .bio-quote { border-left: 4px solid var(--accent-green); padding-left: 20px; margin: 40px 0; font-style: italic; font-size: 1.3rem; color: var(--text-light); }
+        .highlight-box { background: rgba(16, 185, 129, 0.1); padding: 20px; border-radius: 5px; margin: 30px 0; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .highlight-box p { margin-bottom: 8px; color: var(--text-light); font-size: 1rem; }
+        @media (max-width: 900px) { .bio-content { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-    <!-- NAVIGATION -->
     <header>
         <div class="logo">Temba Ncetani</div>
         <nav>
             <a href="index.html">Home</a>
             <a href="index.html#music">Music</a>
+            <a href="index.html#video">Watch</a>
             <a href="biography.html" class="active">Biography</a>
+            <a href="shows.html">Shows</a>
             <a href="index.html#bookings">Bookings</a>
         </nav>
     </header>
 
-    <!-- BIOGRAPHY CONTENT -->
     <section class="bio-page">
         
         <div class="bio-header">
             <h1>The Journey of a Maestro</h1>
-            <p>From Mthatha to the National Stage</p>
+            <p>Rooted in Heritage, Driven by Music & Purpose</p>
         </div>
 
         <div class="bio-content">
             
-            <!-- SIDEBAR (Photo & Quick Facts) -->
+            <!-- SIDEBAR -->
             <div class="bio-sidebar">
-                <!-- IMAGE: Save a professional portrait or performance photo as 'bio-portrait.jpg' -->
                 <img src="images/bio-portrait.jpg" alt="Temba Ncetani Portrait">
                 
                 <div class="highlight-box">
-                    <h3 style="margin-top: 0; font-size: 1.2rem; color: var(--gold);">Quick Facts</h3>
+                    <h3 style="margin-top: 0; font-size: 1.2rem; color: var(--accent-green);">Quick Facts</h3>
                     <p><strong>Origin:</strong> Mthatha, Eastern Cape</p>
-                    <p><strong>Instruments:</strong> Bass (Electric & Double), Piano, Guitar, Saxophone, Flute</p>
-                    <p><strong>Education:</strong> Nelson Mandela University</p>
-                    <p><strong>Key Award:</strong> SAMA Nomination (Best Jazz Album)</p>
+                    <p><strong>Instruments:</strong> Bass, Piano, Guitar, Saxophone, Flute</p>
+                    <p><strong>Education:</strong> Diploma in Music (Jazz Studies) - Nelson Mandela University</p>
+                    <p><strong>Major Nominations:</strong><br>
+                    - SAMAs (Best Jazz Album & Newcomer)<br>
+                    - BASA (Most Innovative Artist)<br>
+                    - UMAs (Best Jazz Act)</p>
+                    <p><strong>Roles:</strong> Cultural Curator, Music Director, Former Standard Bank Ovation Awards Judge (2018)</p>
                 </div>
             </div>
 
-            <!-- MAIN CONTENT (The Story) -->
+            <!-- MAIN CONTENT -->
             <div class="bio-main">
                 
-                <h2>Early Life & Musical Awakening</h2>
-                <p>Temba Ncetani's story begins in the vibrant city of Mthatha, Eastern Cape. It was here, at a young age, that his profound love for music first manifested. Unlike many musicians who follow formal classical training, Ncetani is a completely self-taught multi-instrumentalist and composer.</p>
-                <p>His natural talent and dedication allowed him to master a staggering array of instruments. He is equally comfortable playing the electric and double bass, the piano, guitar, saxophone, and flute, making him one of the most versatile musicians in the Eastern Cape. He credits the legendary double bassist Herbie Tsoaeli as his biggest influence, a guiding light in his musical journey.</p>
+                <h2>Sonic Identity</h2>
+                <p>Temba Ncetani is a South African jazz musician and educator from Mthatha in the Eastern Cape. His artistic vision centers on blending the sophistication of contemporary jazz with the profound rhythmic and melodic languages of indigenous Xhosa musical expression. This fusion creates a sound that is both global in its technical reach and deeply localized in its soulful essence.</p>
 
-                <h2>Academic Journey & Early Career</h2>
-                <p>Driven by his passion, Ncetani pursued formal studies at Nelson Mandela University, where he graduated with a degree in music. Even as a student, he was already making waves in the professional scene. By 2018, he was performing professionally throughout the Bay, showcasing his talents at prestigious events like the National Arts Festival.</p>
-                <p>From 2010 to 2013, he played bass for the popular jazz band, **Take Note**, contributing to their album *Rear Window* under Native Rhythms. This experience grounded him in the rich tradition of South African jazz and prepared him for the national stage.</p>
+                <h2>The Journey</h2>
+                <p>Hailing from the Eastern Cape, Temba's journey began as a self-taught musician, driven by an innate connection to harmony. He is a multi-instrumental force proficient in Bass, Piano, Guitar, Saxophone, and Flute, allowing for diverse compositional textures. His work bridges the gap between urban jazz scenes and the heritage-rich landscapes of Mthatha and surrounding regions.</p>
 
-                <h3>Sharing the Stage with Legends</h3>
-                <p>As his reputation grew, Ncetani found himself sharing the stage with some of South Africa's most prominent acts. He has performed alongside Sibongile Khumalo, Vusi Nova, Jimmy Dludlu, and Nomfusi, proving his ability to hold his own among the country's finest.</p>
+                <h2>Collaborative Excellence</h2>
+                <p>He has shared stages and collaborated with some of South Africa's finest artists, exploring intricate musical dialogues and arrangements.</p>
+                <ul>
+                    <li><strong>Jimmy Dludlu:</strong> Exploring intricate guitar-led jazz dialogues.</li>
+                    <li><strong>Sibongile Khumalo:</strong> Accompanying South Africa's 'First Lady of Song'.</li>
+                    <li><strong>Vusi Nova:</strong> Collaborating on contemporary Afro-soul arrangements.</li>
+                    <li><strong>Nomfusi:</strong> Bringing vibrant energy to international stage productions.</li>
+                    <li><strong>Putuma Tiso:</strong> Crafting deep spiritual and gospel-infused jazz.</li>
+                </ul>
 
-                <h2>The Solo Artist: A Tribute to Heritage</h2>
-                <p>While Ncetani is a gifted performer, it is as a composer and solo artist that his true artistry shines. His music is a bridge across genres—fluidly moving between jazz, gospel, reggae, and pop—but it remains deeply rooted in a tribute to Eastern Cape jazz heritage.</p>
-                
+                <h2>Major Festivals & Platforms</h2>
+                <ul>
+                    <li><strong>Joy of Jazz Festival:</strong> South Africa's premier jazz gathering.</li>
+                    <li><strong>National Arts Festival:</strong> Makhanda's cultural epicenter.</li>
+                    <li><strong>UGU Jazz Festival:</strong> Showcasing regional talent at a high level.</li>
+                    <li><strong>SABC:</strong> Television appearances and FM radio broadcasts.</li>
+                </ul>
+
+                <h2>Debut Album: INTLUNGU. INTLUPHEKO. IMBILINI.</h2>
+                <p>Released in April 2025, this 12-track project reflects his upbringing, influences, and personal journey through sound. It is a sonic exploration translating lived experience into timeless improvisation. Featured tracks include:</p>
+                <ul>
+                    <li><strong>eMthatha:</strong> A soulful homage to the artist's hometown and rhythmic roots.</li>
+                    <li><strong>A View From Panorama:</strong> Cinematic jazz texture composed for Miss N Fazzie.</li>
+                    <li><strong>Avenue A:</strong> In honor of the late Dudley 'Bra Dates' Tito; urban and classic.</li>
+                    <li><strong>NomaIndia:</strong> A deeply personal dedication to his mother, Mrs. NM Ncetani.</li>
+                </ul>
+
                 <blockquote class="bio-quote">
-                    "His debut album, INTLUNGU. INTLUPHEKO. IMBILINI., was nominated for Best Jazz Album at the South African Music Awards (SAMAs)."
+                    "This record's critical acclaim earned him three major nominations: two SAMAs (Best Jazz Album and Newcomer of the Year), a BASA award nomination for Most Innovative Artist, and a UMA nomination for Best Jazz Act."
                 </blockquote>
 
-                <p>Released in 2025, his debut album *INTLUNGU. INTLUPHEKO. IMBILINI.* is a masterpiece of atmospheric, emotionally resonant jazz. The album pays homage to various Eastern Cape jazz icons, featuring tracks like *eMthatha (My Hometown)* and *A Song For Faizel (I Remember Siya Mdebele)*. The record's critical acclaim earned him a SAMA nomination, cementing his place as one of the province's finest musical exports.</p>
-                
-                <p>His commitment to honoring his roots is further evident in his live performances, such as his "Dirge For Eastern Cape Composers" showcase, where he pays tribute to legends like Dudu Pukwana, Duke Makasi, and Dudley 'Bra Dates' Tito.</p>
+                <h2>Off-Stage Impact</h2>
+                <p><strong>Cultural Curator:</strong> As Curator for the Mandela Bay Jazz Festival, he contributed to the visibility and availability of jazz in the Nelson Mandela Bay region, bridging the gap between local talent and established jazz giants.</p>
+                <p><strong>Music Director:</strong> At the Village Vanguard Academy, he leads music education, mentorship, and artist development programs, focusing on creating sustainable career paths for emerging South African artists.</p>
 
-                <h2>The Educator: Nurturing the Next Generation</h2>
-                <p>Despite his national success, Temba Ncetani has never forgotten his community. He is a dedicated music educator, deeply committed to nurturing the next generation of South African talent.</p>
-                <p>He has taught music at **Khanyisa High School** in Mthatha, where he is known simply as "Sir" by his students, and at the online music school, **We See Musically**. His dual career as a SAMA-nominated artist and a high school teacher is a powerful and inspiring story that sets him apart, proving that true success lies in giving back.</p>
-
-                <h2>Legacy</h2>
-                <p>Temba Ncetani is more than just a musician. He is a composer, an arranger, a mentor, and a cultural ambassador. His journey from a self-taught boy in Mthatha to a SAMA-nominated jazz artist is a testament to the power of passion, hard work, and an unwavering commitment to one's roots. He continues to bridge the gap between the rich jazz heritage of the Eastern Cape and the modern soundscapes of South Africa, letting his light shine for all to see.</p>
+                <h2>Education & Pedagogy</h2>
+                <p>Beyond the stage, Temba serves as a Music Teacher at Khanyisa High School in Mthatha. He is passionate about vibrating musicality through education, ensuring that the history and theory of jazz are accessible to the youth. His approach combines academic rigor with the freedom of improvisational thought.</p>
 
             </div>
         </div>
@@ -164,11 +119,12 @@
     <footer>
         <p>&copy; 2026 Temba Ncetani. All Rights Reserved.</p>
         <p style="margin-top: 10px;">
-            <a href="#">Instagram</a> | <a href="#">Facebook</a> | <a href="#">YouTube</a>
+            <a href="https://www.instagram.com/temba_ncetani" target="_blank">Instagram</a> | 
+            <a href="https://www.facebook.com/sinetembabassicks.ncetani" target="_blank">Facebook</a> | 
+            <a href="https://youtu.be/SeePaEPt-s8" target="_blank">YouTube</a>
         </p>
     </footer>
 
-    <!-- FLOATING JAZZ MUSIC PLAYER -->
     <audio id="bg-music" loop>
         <source src="images/jazz-vibe.mp3" type="audio/mpeg">
     </audio>
@@ -197,6 +153,5 @@
             }
         }
     </script>
-
 </body>
 </html>

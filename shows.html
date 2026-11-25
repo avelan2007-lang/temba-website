@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Shows | Temba Ncetani</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="music-style.css">
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <header>
+        <div class="logo">Temba Ncetani</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="index.html#music">Music</a>
+            <a href="index.html#video">Watch</a>
+            <a href="biography.html">Biography</a>
+            <a href="shows.html" class="active">Shows</a>
+            <a href="index.html#bookings">Bookings</a>
+        </nav>
+    </header>
+
+    <!-- PAGE HEADER -->
+    <section class="hero" style="height: 50vh; background-image: linear-gradient(rgba(5, 5, 5, 0.8), rgba(5, 5, 5, 0.95)), url('images/live1.jpg');">
+        <h1>Live & In Session</h1>
+        <p>Catch Temba Ncetani performing live at a stage near you.</p>
+    </section>
+
+    <!-- UPCOMING SHOWS SECTION -->
+    <section class="shows-section" id="shows" style="background-color: var(--bg-dark); min-height: 50vh;">
+        <h2 class="section-title">Upcoming Performances</h2>
+        
+        <div style="max-width: 800px; margin: 0 auto;" id="publicEventList">
+            <!-- Javascript will load the events here -->
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Temba Ncetani. All Rights Reserved.</p>
+        <p style="margin-top: 10px;">
+            <a href="https://www.instagram.com/temba_ncetani" target="_blank">Instagram</a> | 
+            <a href="https://www.facebook.com/sinetembabassicks.ncetani" target="_blank">Facebook</a> | 
+            <a href="https://youtu.be/SeePaEPt-s8" target="_blank">YouTube</a>
+        </p>
+    </footer>
+
+    <!-- FLOATING JAZZ MUSIC PLAYER -->
+    <audio id="bg-music" loop>
+        <source src="images/jazz-vibe.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="music-btn" class="music-btn" onclick="toggleMusic()">
+        <span id="music-text">Play Jazz Vibe</span>
+    </button>
+
+    <script>
+        // --- JAZZ MUSIC PLAYER LOGIC ---
+        var audio = document.getElementById("bg-music");
+        var btn = document.getElementById("music-btn");
+        var text = document.getElementById("music-text");
+        var isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                btn.classList.remove("playing");
+                text.innerText = "Play Jazz Vibe";
+                isPlaying = false;
+            } else {
+                audio.play();
+                btn.classList.add("playing");
+                text.innerText = "Pause Music";
+                isPlaying = true;
+            }
+        }
+
+        // --- LOAD UPCOMING SHOWS FROM ADMIN PANEL ---
+        window.addEventListener('load', function() {
+            var events = JSON.parse(localStorage.getItem("tembaEvents")) || [];
+            var list = document.getElementById("publicEventList");
+
+            if (events.length === 0) {
+                list.innerHTML = "<p style='text-align: center; color: var(--text-muted); font-size: 1.2rem;'>No upcoming shows at the moment. Check back soon!</p>";
+                return;
+            }
+
+            events.forEach(function(event) {
+                var buttonHTML = event.link 
+                    ? `<a href="${event.link}" target="_blank" class="btn btn-outline" style="padding: 8px 15px; font-size: 0.8rem; margin: 0;">Get Tickets</a>`
+                    : `<a href="index.html#bookings" class="btn btn-outline" style="padding: 8px 15px; font-size: 0.8rem; margin: 0;">Contact for Details</a>`;
+
+                var div = document.createElement("div");
+                div.style = "display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid rgba(16, 185, 129, 0.2); text-align: left; background: #111; margin-bottom: 15px; border-radius: 8px;";
+                div.innerHTML = `
+                    <div>
+                        <h3 style="color: var(--accent-green); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 5px;">${event.name}</h3>
+                        <p style="color: var(--text-muted); font-size: 1rem;">${event.venue}</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="color: var(--text-light); font-weight: bold; font-size: 1.2rem; margin-bottom: 5px;">${event.date}</p>
+                        ${buttonHTML}
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        });
+    </script>
+</body>
+</html>
