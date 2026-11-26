@@ -18,6 +18,7 @@
         .form-group input { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid rgba(16, 185, 129, 0.3); color: white; border-radius: 5px; }
         
         .event-item { display: flex; justify-content: space-between; align-items: center; background: #1a1a1a; padding: 15px; margin-bottom: 10px; border-left: 4px solid var(--accent-green); color: white; }
+        .event-item img { width: 90px; border-radius: 5px; }
         .delete-btn { background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         
         .shake { animation: shake 0.5s; }
@@ -37,9 +38,10 @@
     <div class="login-box" id="loginScreen">
         <h2>Artist Portal</h2>
         <p style="color: var(--text-muted); margin-bottom: 20px;">Authorized Access Only</p>
+        <input type="email" id="email" placeholder="Email">
         <input type="password" id="password" placeholder="Enter Secure Password">
         <button class="btn btn-green" style="width: 100%;" onclick="checkLogin()">Login</button>
-        <p id="error-msg" style="color: #e74c3c; margin-top: 15px; display: none;">Incorrect Password</p>
+        <p id="error-msg" style="color: #e74c3c; margin-top: 15px; display: none;">Incorrect email or password</p>
     </div>
 
     <!-- ADMIN DASHBOARD -->
@@ -50,127 +52,97 @@
         </div>
 
         <div class="form-group">
-            <label>Event Name</label>
-            <input type="text" id="eventName" placeholder="e.g., Joy of Jazz Festival">
-        </div>
-        <div class="form-group">
-            <label>Event Date</label>
-            <input type="text" id="eventDate" placeholder="e.g., 25 October 2026">
-        </div>
-        <div class="form-group">
-            <label>Venue / City</label>
-            <input type="text" id="eventVenue" placeholder="e.g., Sandton Convention Centre">
-        </div>
-        <div class="form-group">
-            <label>Ticket Link (Optional)</label>
-            <input type="url" id="eventLink" placeholder="e.g., https://quicket.co.za/...">
+            <label>Show Flyer</label>
+            <input type="file" id="flyer" accept="image/*">
         </div>
         
-        <button class="btn btn-green" style="width: 100%; margin-bottom: 40px;" onclick="addEvent()">Add Event to Website</button>
+        <button class="btn btn-green" style="width: 100%; margin-bottom: 40px;" onclick="addFlyer()">Add Flyer to Website</button>
 
         <hr style="border: 1px solid #333; margin-bottom: 20px;">
         <h3 style="color: var(--accent-green); margin-bottom: 15px;">Current Live Shows</h3>
         <div id="eventList"></div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // The secret password is: TembaNcetani2026!
-        // We are using a SHA-256 Hash to hide the password from the source code.
-        const SECURE_HASH = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"; // (This is a placeholder hash, see note below)
+        const SUPABASE_URL = "https://hjwuwwbebsbhrjytcjqv.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_SlgiM37enHi4X5DpsFzyLQ_qvqQ-K8K";
+        const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        async function hashPassword(password) {
-            const msgBuffer = new TextEncoder().encode(password);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            return hashHex;
+        function showDashboard(show) {
+            document.getElementById("adminDashboard").style.display = show ? "block" : "none";
+            document.getElementById("loginScreen").style.display = show ? "none" : "block";
+            if (show) loadFlyers();
         }
 
         async function checkLogin() {
-            var pass = document.getElementById("password").value;
-            var loginBox = document.getElementById("loginScreen");
-            
-            // Generate the hash of what the user typed
-            var hashedInput = await hashPassword(pass);
-
-            // The real hash of "TembaNcetani2026!" is:
-            // 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
-            // (I am using a real hash here, so it will actually work)
-            
-            if (hashedInput === "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918") {
-                document.getElementById("loginScreen").style.display = "none";
-                document.getElementById("adminDashboard").style.display = "block";
-                loadEvents();
-            } else {
-                document.getElementById("error-msg").style.display = "block";
-                loginBox.classList.add("shake");
-                setTimeout(function() { loginBox.classList.remove("shake"); }, 500);
+            var result = await db.auth.signInWithPassword({
+                email: document.getElementById("email").value.trim(),
+                password: document.getElementById("password").value
+            });
+            if (result.error) {
+                var box = document.getElementById("loginScreen");
+                var message = document.getElementById("error-msg");
+                message.style.display = "block";
+                box.classList.add("shake");
+                setTimeout(function() { box.classList.remove("shake"); }, 500);
+                return;
             }
-        }
-
-        function logout() {
-            document.getElementById("adminDashboard").style.display = "none";
-            document.getElementById("loginScreen").style.display = "block";
-            document.getElementById("password").value = "";
             document.getElementById("error-msg").style.display = "none";
+            document.getElementById("password").value = "";
+            showDashboard(true);
         }
 
-        function addEvent() {
-            var name = document.getElementById("eventName").value;
-            var date = document.getElementById("eventDate").value;
-            var venue = document.getElementById("eventVenue").value;
-            var link = document.getElementById("eventLink").value;
-
-            if (name === "" || date === "" || venue === "") {
-                alert("Please fill in the event name, date, and venue.");
-                return;
-            }
-
-            var events = JSON.parse(localStorage.getItem("tembaEvents")) || [];
-            events.push({ name: name, date: date, venue: venue, link: link });
-            localStorage.setItem("tembaEvents", JSON.stringify(events));
-
-            document.getElementById("eventName").value = "";
-            document.getElementById("eventDate").value = "";
-            document.getElementById("eventVenue").value = "";
-            document.getElementById("eventLink").value = "";
-            
-            alert("Event added successfully! It is now live on the website.");
-            loadEvents();
+        async function logout() {
+            await db.auth.signOut();
+            showDashboard(false);
         }
 
-        function loadEvents() {
-            var events = JSON.parse(localStorage.getItem("tembaEvents")) || [];
+        async function addFlyer() {
+            var input = document.getElementById("flyer");
+            var file = input.files[0];
+            if (!file) { alert("Please choose a flyer first."); return; }
+            var name = Date.now() + "-" + file.name.replace(/[^a-zA-Z0-9.]/g, "_");
+            var result = await db.storage.from("flyers").upload(name, file);
+            if (result.error) { alert("Upload failed: " + result.error.message); return; }
+            input.value = "";
+            alert("Flyer added! It is now live on the website.");
+            loadFlyers();
+        }
+
+        async function loadFlyers() {
             var list = document.getElementById("eventList");
+            var result = await db.storage.from("flyers").list("", { limit: 100, sortBy: { column: "name", order: "desc" } });
             list.innerHTML = "";
+            if (result.error) { list.textContent = "Could not load flyers: " + result.error.message; return; }
+            var files = result.data.filter(function(f) { return !f.name.startsWith("."); });
+            if (files.length === 0) { list.innerHTML = "<p style='color: #aaa;'>No upcoming shows listed.</p>"; return; }
 
-            if (events.length === 0) {
-                list.innerHTML = "<p style='color: #aaa;'>No upcoming shows listed.</p>";
-                return;
-            }
-
-            events.forEach(function(event, index) {
+            files.forEach(function(file) {
                 var div = document.createElement("div");
                 div.className = "event-item";
-                div.innerHTML = `
-                    <div>
-                        <strong>${event.name}</strong><br>
-                        <span style="font-size: 0.9rem; color: #aaa;">${event.date} | ${event.venue}</span>
-                    </div>
-                    <button class="delete-btn" onclick="deleteEvent(${index})">Delete</button>
-                `;
+                var img = document.createElement("img");
+                img.src = db.storage.from("flyers").getPublicUrl(file.name).data.publicUrl;
+                img.alt = "Show flyer";
+                var button = document.createElement("button");
+                button.className = "delete-btn";
+                button.textContent = "Delete";
+                button.onclick = function() { deleteFlyer(file.name); };
+                div.append(img, button);
                 list.appendChild(div);
             });
         }
 
-        function deleteEvent(index) {
-            if (confirm("Are you sure you want to delete this event?")) {
-                var events = JSON.parse(localStorage.getItem("tembaEvents")) || [];
-                events.splice(index, 1);
-                localStorage.setItem("tembaEvents", JSON.stringify(events));
-                loadEvents();
-            }
+        async function deleteFlyer(name) {
+            if (!confirm("Are you sure you want to delete this flyer?")) return;
+            var result = await db.storage.from("flyers").remove([name]);
+            if (result.error) alert("Delete failed: " + result.error.message);
+            loadFlyers();
         }
+
+        db.auth.getSession().then(function(result) {
+            if (result.data.session) showDashboard(true);
+        });
     </script>
 </body>
 </html>

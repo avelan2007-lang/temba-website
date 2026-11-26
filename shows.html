@@ -56,7 +56,12 @@
         <span id="music-text">Play Jazz Vibe</span>
     </button>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        // --- SUPABASE KEYS ---
+        const SUPABASE_URL = "https://hjwuwwbebsbhrjytcjqv.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_SlgiM37enHi4X5DpsFzyLQ_qvqQ-K8K";
+
         // --- JAZZ MUSIC PLAYER LOGIC ---
         var audio = document.getElementById("bg-music");
         var btn = document.getElementById("music-btn");
@@ -77,35 +82,31 @@
             }
         }
 
-        // --- LOAD UPCOMING SHOWS FROM ADMIN PANEL ---
-        window.addEventListener('load', function() {
-            var events = JSON.parse(localStorage.getItem("tembaEvents")) || [];
+        // --- LOAD SHOW FLYERS ---
+        window.addEventListener('load', async function() {
             var list = document.getElementById("publicEventList");
+            try {
+                var db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                var result = await db.storage.from("flyers").list("", { limit: 100, sortBy: { column: "name", order: "desc" } });
+                if (result.error) throw result.error;
+                var files = result.data.filter(function(f) { return !f.name.startsWith("."); });
 
-            if (events.length === 0) {
-                list.innerHTML = "<p style='text-align: center; color: var(--text-muted); font-size: 1.2rem;'>No upcoming shows at the moment. Check back soon!</p>";
-                return;
+                if (files.length === 0) {
+                    list.innerHTML = "<p style='text-align: center; color: var(--text-muted); font-size: 1.2rem;'>No upcoming shows at the moment. Check back soon!</p>";
+                    return;
+                }
+
+                files.forEach(function(file) {
+                    var img = document.createElement("img");
+                    img.src = db.storage.from("flyers").getPublicUrl(file.name).data.publicUrl;
+                    img.alt = "Show flyer";
+                    img.style = "display: block; width: 100%; margin-bottom: 20px; border-radius: 8px;";
+                    list.appendChild(img);
+                });
+            } catch (error) {
+                console.error(error);
+                list.innerHTML = "<p style='text-align: center; color: var(--text-muted); font-size: 1.2rem;'>Could not load shows. Please try again later.</p>";
             }
-
-            events.forEach(function(event) {
-                var buttonHTML = event.link 
-                    ? `<a href="${event.link}" target="_blank" class="btn btn-outline" style="padding: 8px 15px; font-size: 0.8rem; margin: 0;">Get Tickets</a>`
-                    : `<a href="index.html#bookings" class="btn btn-outline" style="padding: 8px 15px; font-size: 0.8rem; margin: 0;">Contact for Details</a>`;
-
-                var div = document.createElement("div");
-                div.style = "display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid rgba(16, 185, 129, 0.2); text-align: left; background: #111; margin-bottom: 15px; border-radius: 8px;";
-                div.innerHTML = `
-                    <div>
-                        <h3 style="color: var(--accent-green); font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 5px;">${event.name}</h3>
-                        <p style="color: var(--text-muted); font-size: 1rem;">${event.venue}</p>
-                    </div>
-                    <div style="text-align: right;">
-                        <p style="color: var(--text-light); font-weight: bold; font-size: 1.2rem; margin-bottom: 5px;">${event.date}</p>
-                        ${buttonHTML}
-                    </div>
-                `;
-                list.appendChild(div);
-            });
         });
     </script>
 </body>
